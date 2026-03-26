@@ -1,0 +1,24 @@
+id: procure_to_pay
+name: "Procure to Pay"
+description: >
+  Flujo agéntico de extremo a extremo para el ciclo Procure-to-Pay en Oracle Fusion:
+  obtiene órdenes de compra, valida políticas de aprobación y registra la acción de pago.
+
+steps:
+  - name: fetch_purchase_orders
+    agent: data_agent
+    params:
+      resource: purchaseOrders
+      query_params:
+        status: Approved
+
+  - name: validate_po_policies
+    agent: policy_agent
+    params: {}
+
+  - name: create_invoice
+    agent: action_agent
+    params:
+      action: invoices
+      payload:
+        description: "Factura generada automáticamente desde workflow P2P"

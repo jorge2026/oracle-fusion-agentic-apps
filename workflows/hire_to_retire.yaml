@@ -1,0 +1,24 @@
+id: hire_to_retire
+name: "Hire to Retire"
+description: >
+  Flujo agéntico de extremo a extremo para el ciclo Hire-to-Retire en Oracle Fusion HCM:
+  obtiene empleados activos, valida políticas de RRHH y registra actualizaciones.
+
+steps:
+  - name: fetch_employees
+    agent: data_agent
+    params:
+      resource: employees
+      query_params:
+        status: Active
+
+  - name: validate_hr_policies
+    agent: policy_agent
+    params: {}
+
+  - name: update_employee_records
+    agent: action_agent
+    params:
+      action: employees/updateRecords
+      payload:
+        description: "Actualización de registros generada automáticamente desde workflow H2R"
